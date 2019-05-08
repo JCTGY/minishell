@@ -6,7 +6,7 @@
 /*   By: jchiang- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 08:30:39 by jchiang-          #+#    #+#             */
-/*   Updated: 2019/05/03 21:17:59 by jchiang-         ###   ########.fr       */
+/*   Updated: 2019/05/07 20:38:18 by jchiang-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,12 @@ static void			init_envp(t_mini *mini, char **envp)
 	i = -1;
 	if (!(mini->en = (char **)ft_memalloc(sizeof(char *) * len)))
 		return ;
+	mini->ev = NULL;
 	while (envp[++i])
+	{
+		mini->ev = mini_addlist(mini_addpath(envp[i]), mini->ev);
 		mini->en[i] = ft_strdup(envp[i]);
-	mini->en[i] = 0;
+	}
 }
 
 static void			get_arg(char **msg)
@@ -55,7 +58,9 @@ static void			display_header(void)
 	while (read(fd, buff, 1) > 0)
 	{
 		buff[1] = '\0';
-		ft_putchar(buff[0]);
+		write(1, "\e[1;95m", 8);
+		write(1, &buff[0], 1);
+		write(1, "\e[0m", 4);
 	}
 	close(fd);
 }
@@ -72,7 +77,7 @@ int					main(int argc, char **argv, char **envp)
 	init_envp(&mini, envp);
 	while (42)
 	{
-		ft_printf("mini> ");
+		write(1, "\e[1;95m87SHELL> \e[0m", 20);
 		get_arg(&str);
 		mini.Scmd = ft_strsplit(str, ';');
 		if (mini_command(&mini) == -1)

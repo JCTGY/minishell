@@ -6,7 +6,7 @@
 /*   By: jchiang- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 19:00:58 by jchiang-          #+#    #+#             */
-/*   Updated: 2019/05/03 21:17:59 by jchiang-         ###   ########.fr       */
+/*   Updated: 2019/05/07 19:31:58 by jchiang-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void		mini_process(t_mini *mini, char *full_path)
 	if (pid == 0)
 		execve(full_path, mini->cmd, mini->en);
 	else
-		wait(&pid);
+		wait(0);
 }
 
 static void		mini_fullpath(t_mini *mini)
@@ -55,8 +55,10 @@ int				mini_command(t_mini *mini)
 	while (mini->Scmd[++i])
 	{
 		mini->cmd = ft_strsplit(mini->Scmd[i], ' ');
-		if (!(ft_strcmp(mini->cmd[0], "exit")))
-			return (-1);
+		if (!(mini->cmd[0]))
+			return (0);
+		if (!(mini_check_build(mini, mini->cmd[0])))
+			return (1);
 		get_bin_path("PATH", mini);
 		mini_fullpath(mini);
 		mini_dsfree(mini->path);

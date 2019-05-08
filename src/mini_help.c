@@ -6,11 +6,39 @@
 /*   By: jchiang- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 19:04:53 by jchiang-          #+#    #+#             */
-/*   Updated: 2019/05/03 16:21:35 by jchiang-         ###   ########.fr       */
+/*   Updated: 2019/05/07 15:36:54 by jchiang-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_path		*mini_addlist(t_path *en, t_path *ev)
+{
+	t_path		*temp;
+
+	if (!ev)
+		return (en);
+	temp = ev;
+	while (ev->next)
+		ev = ev->next;
+	ev->next = en;
+	return (temp);
+}
+
+t_path		*mini_addpath(char *envp)
+{
+	t_path		*en;
+	char		**temp;
+
+	if (!(en = (t_path *)ft_memalloc(sizeof(t_path))))
+		return (NULL);
+	temp = ft_strsplit(envp, '=');
+	en->pa = ft_strdup(temp[0]);
+	en->va = ft_strdup(temp[1]);
+	en->next = NULL;
+	mini_dsfree(temp);
+	return (en);
+}
 
 int			check_path(char *path)
 {
@@ -23,19 +51,7 @@ int			check_path(char *path)
 	return (1);
 }
 
-void		mini_dsfree(char **str)
-{
-	int		i;
-
-	i = -1;
-	if (!str)
-		return ;
-	while (str[++i])
-		ft_strdel(&str[i]);
-	free(str);
-}
-
-void	get_bin_path(char *bin, t_mini *mini)
+void		get_bin_path(char *bin, t_mini *mini)
 {
 	int		i;
 	char	*path;

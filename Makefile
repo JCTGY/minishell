@@ -11,6 +11,10 @@ INC = -Iincludes
 ALL_SRC =  minishell.c \
 		   mini_command.c \
 		   mini_help.c \
+		   mini_jump.c \
+		   mini_free.c \
+		   mini_envmod.c \
+		   mini_error.c \
 
 SRC = $(addprefix $(SRC_DIR), $(ALL_SRC))
 OBJ = $(addprefix $(OBJ_DIR), $(ALL_SRC:.c=.o))
