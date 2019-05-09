@@ -6,38 +6,44 @@
 /*   By: jchiang- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 19:04:53 by jchiang-          #+#    #+#             */
-/*   Updated: 2019/05/07 15:36:54 by jchiang-         ###   ########.fr       */
+/*   Updated: 2019/05/08 19:42:05 by jchiang-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_path		*mini_addlist(t_path *en, t_path *ev)
+int			mini_chdir(char *path, char *name)
 {
-	t_path		*temp;
-
-	if (!ev)
-		return (en);
-	temp = ev;
-	while (ev->next)
-		ev = ev->next;
-	ev->next = en;
-	return (temp);
+	if (!(chdir(path)))
+		return (0);
+	else
+	{
+		if (access(path, F_OK) == -1)
+			ft_printf("cd: no such file or directory: %s\n", name);
+		else if (access(path, R_OK) == -1)
+			ft_printf("cd: permission denied: %s\n", name);
+		else
+			ft_printf("cd: No such file or directory: %s\n", name);
+	}
+	return (1);
 }
 
-t_path		*mini_addpath(char *envp)
+void		mini_full_path(t_mini *mini)
 {
-	t_path		*en;
-	char		**temp;
+	int		i;
+	char	*temp;
 
-	if (!(en = (t_path *)ft_memalloc(sizeof(t_path))))
-		return (NULL);
-	temp = ft_strsplit(envp, '=');
-	en->pa = ft_strdup(temp[0]);
-	en->va = ft_strdup(temp[1]);
-	en->next = NULL;
-	mini_dsfree(temp);
-	return (en);
+	i = 0;
+	while (mini->cmd[++i])
+	{
+		if (mini->cmd[i][0] == '~')
+		{
+			temp = ft_strjoin(mini_findpath(mini->ev, "HOME"), mini->cmd[i] + 1);
+			ft_strdel(&mini->cmd[i]);
+			mini->cmd[i] = ft_strdup(temp);
+			ft_strdel(&temp);
+		}
+	}
 }
 
 int			check_path(char *path)
@@ -64,4 +70,36 @@ void		get_bin_path(char *bin, t_mini *mini)
 	}
 	mini->path = ft_strsplit(path, ':');
 	ft_strdel(&path);
+}
+
+t_path		*mini_fix_help(int pa)
+{
+	t_path		*add;
+	char		path[PATH_MAX];
+
+	if (pa == E_HOME)
+	{
+		add = (t_path *)ft_memalloc(sizeof(t_path));
+		add->pa = ft_strdup("HOME");
+		add->va = ft_strdup(getpwuid(getuid())->pw_dir);
+		add->next = NULL;
+	}
+	else if (pa == E_PWD)
+	{
+		getcwd(path, sizeof(path));
+		add = (t_path *)ft_memalloc(sizeof(t_path));
+		add->pa = ft_strdup("PWD");
+		add->va = ft_strdup(path);
+		add->next = NULL;
+	}
+/*	else if (pa == E_OLDPWD)
+	{
+		getcwd(path, sizeof(path));
+		add = (t_path *)ft_memalloc(sizeof(t_path));
+		add->pa = ft_strdup("PWD");
+		add->va = ft_strdup(path);
+		add->next = NULL;
+	}
+	*/
+	return (add);
 }

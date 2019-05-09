@@ -6,7 +6,7 @@
 /*   By: jchiang- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 17:38:08 by jchiang-          #+#    #+#             */
-/*   Updated: 2019/05/07 20:53:23 by jchiang-         ###   ########.fr       */
+/*   Updated: 2019/05/08 14:21:03 by jchiang-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ static int		check_cmd_valid(t_mini *mini, int flag)
 	if ((flag == 1 && (!(mini->cmd[1]) || mini->cmd[2])) ||
 			(flag == 2 && (!(mini->cmd[1]) || !(mini->cmd[2]) || mini->cmd[3])))
 	{
-		(flag == 1) ? dis_error(W_UNSET) : 0;
-		(flag == 2) ? dis_error(W_SETENV) : 0;
+		(flag == 1) ? dis_error(W_UNSET, NULL) : 0;
+		(flag == 2) ? dis_error(W_SETENV, NULL) : 0;
 		return (1);
 	}
 	return (0);

@@ -14,6 +14,8 @@ ALL_SRC =  minishell.c \
 		   mini_jump.c \
 		   mini_free.c \
 		   mini_envmod.c \
+		   mini_pathmod.c \
+		   mini_cd.c \
 		   mini_error.c \
 
 SRC = $(addprefix $(SRC_DIR), $(ALL_SRC))

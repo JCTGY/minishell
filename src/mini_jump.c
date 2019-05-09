@@ -6,7 +6,7 @@
 /*   By: jchiang- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/03 16:54:18 by jchiang-          #+#    #+#             */
-/*   Updated: 2019/05/07 20:40:21 by jchiang-         ###   ########.fr       */
+/*   Updated: 2019/05/08 08:47:18 by jchiang-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ int					mini_jump(t_mini *mini)
 		mini->ev = mini_setenv(mini);
 	else if (!(ft_strcmp(mini->cmd[0], "unsetenv")))
 		mini->ev = mini_unsetenv(mini);
+	else if (!(ft_strcmp(mini->cmd[0], "cd")))
+		mini_cd(mini);
 	else if (!(ft_strcmp(mini->cmd[0], "exit")))
 	{
 		mini_dslist(mini);
