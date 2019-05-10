@@ -6,7 +6,7 @@
 /*   By: jchiang- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 08:33:40 by jchiang-          #+#    #+#             */
-/*   Updated: 2019/05/10 12:01:11 by jchiang-         ###   ########.fr       */
+/*   Updated: 2019/05/10 13:30:24 by jchiang-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ int				mini_dapr(t_mini *mini, char *q, int i)
 			name[x++] = q[i];
 	}
 	name[x] = '\0';
-	(x) && ft_printf("%s", mini_findpath(mini->ev, name));
+	if (x && mini_findpath(mini->ev, name))
+		ft_printf("%s", mini_findpath(mini->ev, name));
 	return (i);
 }
 
@@ -81,7 +82,7 @@ int				mini_echo(t_mini *mini)
 {
 	int		i;
 
-	i = 4;
+	i = 5;
 	if (mini_checkquot(mini->scmd[mini->i]))
 		return (mini_rerror(W_ECARG, NULL));
 	while (mini->scmd[mini->i][i])
