@@ -6,7 +6,7 @@
 /*   By: jchiang- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/03 16:54:18 by jchiang-          #+#    #+#             */
-/*   Updated: 2019/05/08 08:47:18 by jchiang-         ###   ########.fr       */
+/*   Updated: 2019/05/10 12:01:12 by jchiang-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,24 +35,22 @@ int					mini_jump(t_mini *mini)
 		mini->ev = mini_unsetenv(mini);
 	else if (!(ft_strcmp(mini->cmd[0], "cd")))
 		mini_cd(mini);
+	else if (!(ft_strcmp(mini->cmd[0], "echo")))
+		mini_echo(mini);
 	else if (!(ft_strcmp(mini->cmd[0], "exit")))
 	{
 		mini_dslist(mini);
 		mini_dsfree(mini->cmd);
-		return (-1);
+		exit(0);
 	}
-	mini_dsfree(mini->cmd);
 	return (1);
 }
 
-int					mini_check_build(t_mini *mini, char *str)
+int					mini_check_build(char *str)
 {
 	if (!(ft_strcmp(str, "env")) || !(ft_strcmp(str, "setenv")) ||
 			!(ft_strcmp(str, "unsetenv")) || !(ft_strcmp(str, "exit")) ||
 			!(ft_strcmp(str, "cd")) || !(ft_strcmp(str, "echo")))
-	{
-		mini_jump(mini);
 		return (0);
-	}
 	return (1);
 }

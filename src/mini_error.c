@@ -6,11 +6,26 @@
 /*   By: jchiang- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 17:43:16 by jchiang-          #+#    #+#             */
-/*   Updated: 2019/05/08 19:11:42 by jchiang-         ###   ########.fr       */
+/*   Updated: 2019/05/10 11:46:51 by jchiang-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int				mini_rerror(int error, char *msg)
+{
+	if (error == W_FIPER)
+	{
+		ft_printf("87SHELL: Permission denied: %s\n", msg);
+		return (0);
+	}
+	else if (error == W_ECARG)
+	{
+		ft_printf("Echo: Not Corret Number of Quote\n");
+		return (0);
+	}
+	return (1);
+}
 
 void			dis_error(int error, char *msg)
 {

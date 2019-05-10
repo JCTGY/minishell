@@ -6,7 +6,7 @@
 /*   By: jchiang- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 08:30:39 by jchiang-          #+#    #+#             */
-/*   Updated: 2019/05/07 20:38:18 by jchiang-         ###   ########.fr       */
+/*   Updated: 2019/05/10 10:16:16 by jchiang-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void			display_header(void)
 	int		fd;
 	char	buff[2];
 
-	if ((fd = open("headder", O_RDONLY)) < 0)
+	if ((fd = open("mini_head", O_RDONLY)) < 0)
 		return ;
 	while (read(fd, buff, 1) > 0)
 	{
@@ -75,15 +75,16 @@ int					main(int argc, char **argv, char **envp)
 	ft_bzero(&mini, sizeof(mini));
 	display_header();
 	init_envp(&mini, envp);
+	mini_ctrl();
 	while (42)
 	{
 		write(1, "\e[1;95m87SHELL> \e[0m", 20);
 		get_arg(&str);
-		mini.Scmd = ft_strsplit(str, ';');
-		if (mini_command(&mini) == -1)
-			break ;
+		mini.scmd = ft_strsplit(str, ';');
+		mini.i = 0;
+		mini_command(&mini);
 		ft_strdel(&str);
-		mini_dsfree(mini.Scmd);
+		mini_dsfree(mini.scmd);
 	}
 	return (0);
 }

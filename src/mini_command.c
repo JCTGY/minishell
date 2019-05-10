@@ -6,19 +6,47 @@
 /*   By: jchiang- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 19:00:58 by jchiang-          #+#    #+#             */
-/*   Updated: 2019/05/08 18:12:43 by jchiang-         ###   ########.fr       */
+/*   Updated: 2019/05/10 12:01:12 by jchiang-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void		mini_trpath(t_mini *mini)
+{
+	int		x;
+
+	x = 0;
+	while (mini->cmd[++x])
+	{
+		if (mini->cmd[x][0] == '~')
+			mini_full_path(mini);
+	}
+}
+
 static void		mini_process(t_mini *mini, char *full_path)
 {
 	pid_t		pid;
 
+	if (mini->cmd[0][0] == '.' && mini->cmd[0][1] == '/')
+	{
+		if (access(&(mini->cmd[0][2]), X_OK))
+		{
+			mini_rerror(W_FIPER, mini->cmd[0]);
+			mini->flag = 1;
+			return ;
+		}
+		mini->flag = 1;
+	}
 	pid = fork();
+	mini_nctrl();
 	if (pid == 0)
 		execve(full_path, mini->cmd, mini->en);
+	else if (pid < 0)
+	{
+		ft_printf("Cannot Properly Fork\n");
+		return ;
+	}
 	else
 		wait(0);
 }
@@ -40,44 +68,35 @@ static void		mini_fullpath(t_mini *mini)
 		while (mini->cmd[0][++x])
 			full_path[++len] = mini->cmd[0][x];
 		full_path[++len] = '\0';
-		if ((check_path(full_path)))
+		if ((check_path(mini, full_path)))
 		{
 			mini_process(mini, full_path);
 			break ;
 		}
 	}
-	if (mini->path[i] == NULL)
+	if (mini->path[i] == NULL && !(mini->flag))
 		dis_error(W_NOCMD, mini->cmd[0]);
+	mini->flag = 0;
 }
 
 int				mini_command(t_mini *mini)
 {
-	int		i;
-	int		x;
-
-	i = -1;
-	x = 0;
-	while (mini->Scmd[++i])
+	while (mini->scmd[mini->i] != NULL)
 	{
-		mini->cmd = ft_strsplit(mini->Scmd[i], ' ');
-		if (!(mini->cmd[0]))
-		{
-			mini_dsfree(mini->cmd);
-			return (0);
-		}
-		if (!(mini_check_build(mini, mini->cmd[0])))
-			return (1);
-		if (check_path(mini->cmd[0]))
+		mini->cmd = mini_split(mini->scmd[mini->i]);
+		if (mini->cmd[0] && !(mini_check_build(mini->cmd[0])))
+			mini_jump(mini);
+		else if (mini->cmd[0] && check_path(mini, mini->cmd[0]))
 			mini_process(mini, mini->cmd[0]);
-		while (mini->cmd[++x])
+		else if (mini->cmd[0])
 		{
-			if (mini->cmd[x][0] == '~')
-				mini_full_path(mini);
+			mini_trpath(mini);
+			get_bin_path("PATH", mini);
+			mini_fullpath(mini);
+			mini_dsfree(mini->path);
 		}
-		get_bin_path("PATH", mini);
-		mini_fullpath(mini);
-		mini_dsfree(mini->path);
-		mini_dsfree(mini->cmd);
+		(mini->cmd) ? mini_dsfree(mini->cmd) : 0;
+		mini->i += 1;
 	}
 	return (0);
 }

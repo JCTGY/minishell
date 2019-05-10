@@ -6,7 +6,7 @@
 /*   By: jchiang- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 19:04:53 by jchiang-          #+#    #+#             */
-/*   Updated: 2019/05/08 19:42:05 by jchiang-         ###   ########.fr       */
+/*   Updated: 2019/05/10 08:15:18 by jchiang-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int			mini_chdir(char *path, char *name)
 		else if (access(path, R_OK) == -1)
 			ft_printf("cd: permission denied: %s\n", name);
 		else
-			ft_printf("cd: No such file or directory: %s\n", name);
+			ft_printf("cd: Not a directory: %s\n", name);
 	}
 	return (1);
 }
@@ -38,7 +38,8 @@ void		mini_full_path(t_mini *mini)
 	{
 		if (mini->cmd[i][0] == '~')
 		{
-			temp = ft_strjoin(mini_findpath(mini->ev, "HOME"), mini->cmd[i] + 1);
+			temp =\
+				ft_strjoin(mini_findpath(mini->ev, "HOME"), mini->cmd[i] + 1);
 			ft_strdel(&mini->cmd[i]);
 			mini->cmd[i] = ft_strdup(temp);
 			ft_strdel(&temp);
@@ -46,7 +47,7 @@ void		mini_full_path(t_mini *mini)
 	}
 }
 
-int			check_path(char *path)
+int			check_path(t_mini *mini, char *path)
 {
 	struct stat		stat;
 
@@ -54,6 +55,14 @@ int			check_path(char *path)
 		return (0);
 	if (!(S_ISREG(stat.st_mode)) && !(S_ISLNK(stat.st_mode)))
 		return (0);
+	if ((S_ISREG(stat.st_mode)) && !(stat.st_mode & S_IXUSR) &&
+			mini->cmd[1])
+	{
+		if (mini->cmd[1][0] == '~')
+			return (mini_rerror(W_FIPER, path));
+		else
+			return (mini_rerror(W_FIPER, mini->cmd[1]));
+	}
 	return (1);
 }
 
@@ -77,6 +86,7 @@ t_path		*mini_fix_help(int pa)
 	t_path		*add;
 	char		path[PATH_MAX];
 
+	add = NULL;
 	if (pa == E_HOME)
 	{
 		add = (t_path *)ft_memalloc(sizeof(t_path));
@@ -92,14 +102,5 @@ t_path		*mini_fix_help(int pa)
 		add->va = ft_strdup(path);
 		add->next = NULL;
 	}
-/*	else if (pa == E_OLDPWD)
-	{
-		getcwd(path, sizeof(path));
-		add = (t_path *)ft_memalloc(sizeof(t_path));
-		add->pa = ft_strdup("PWD");
-		add->va = ft_strdup(path);
-		add->next = NULL;
-	}
-	*/
 	return (add);
 }

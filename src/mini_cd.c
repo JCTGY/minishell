@@ -6,7 +6,7 @@
 /*   By: jchiang- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 08:42:42 by jchiang-          #+#    #+#             */
-/*   Updated: 2019/05/08 19:12:25 by jchiang-         ###   ########.fr       */
+/*   Updated: 2019/05/10 08:21:29 by jchiang-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,11 @@ static void		mini_cdback(t_mini *mini)
 	char		path[PATH_MAX];
 	char		temp[PATH_MAX];
 
+	if (!(mini_findpath(mini->ev, "OLDPWD")))
+	{
+		ft_printf("cd : No OLDPWD Found\n");
+		return ;
+	}
 	ft_strcpy(path, mini_findpath(mini->ev, "OLDPWD"));
 	if ((mini_chdir(path, path)))
 		return ;
@@ -77,15 +82,21 @@ static void		mini_cdhome(t_mini *mini)
 
 void			mini_cd(t_mini *mini)
 {
-	if (!(mini->cmd[1]) || mini->cmd[2])
+	int		x;
+
+	x = 0;
+	while (mini->cmd[x])
+		x++;
+	if (x > 2)
 	{
 		dis_error(W_CDARG, NULL);
 		return ;
 	}
-	if (!(mini_findpath(mini->ev, "HOME")) || !(mini_findpath(mini->ev, "OLDPWD"))
-			|| !(mini_findpath(mini->ev, "PWD")))
+	if (!(mini_findpath(mini->ev, "HOME")) || !(mini_findpath(mini->ev, "PWD")))
 		mini->ev = mini_fixenv(mini);
-	if (!(ft_strcmp(mini->cmd[1], "~")) && !(mini->cmd[2]))
+	if (!(mini->cmd[1]))
+		mini_cdhome(mini);
+	else if ((!(ft_strcmp(mini->cmd[1], "~")) && !(mini->cmd[2])))
 		mini_cdhome(mini);
 	else if ((ft_strcmp(mini->cmd[1], "~")) && (mini->cmd[1][0] == '~') &&
 			!(mini->cmd[2]))
@@ -94,4 +105,4 @@ void			mini_cd(t_mini *mini)
 		mini_cdback(mini);
 	else if (mini->cmd[1] && !(mini->cmd[2]))
 		mini_cdrepath(mini);
-}	
+}

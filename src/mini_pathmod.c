@@ -6,7 +6,7 @@
 /*   By: jchiang- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 09:10:30 by jchiang-          #+#    #+#             */
-/*   Updated: 2019/05/08 19:15:41 by jchiang-         ###   ########.fr       */
+/*   Updated: 2019/05/09 09:09:54 by jchiang-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ t_path		*mini_fixenv(t_mini *mini)
 		add->next = mini_fix_help(E_HOME);
 		add = add->next;
 	}
-	else if (!(mini_findpath(mini->ev, "PWD")))
+	if (!(mini_findpath(mini->ev, "PWD")))
 	{
 		add->next = mini_fix_help(E_PWD);
 		add = add->next;
