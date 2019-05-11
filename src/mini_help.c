@@ -6,7 +6,7 @@
 /*   By: jchiang- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 19:04:53 by jchiang-          #+#    #+#             */
-/*   Updated: 2019/05/10 08:15:18 by jchiang-         ###   ########.fr       */
+/*   Updated: 2019/05/10 16:31:19 by jchiang-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,19 +66,23 @@ int			check_path(t_mini *mini, char *path)
 	return (1);
 }
 
-void		get_bin_path(char *bin, t_mini *mini)
+int			get_bin_path(char *bin, t_mini *mini)
 {
 	int		i;
 	char	*path;
 
 	i = -1;
+	path = NULL;
 	while (mini->en[++i])
 	{
 		if (ft_strstr(mini->en[i], bin))
 			path = ft_strdup(ft_strchr(mini->en[i], '/'));
 	}
+	if (path == NULL)
+		return (-1);
 	mini->path = ft_strsplit(path, ':');
 	ft_strdel(&path);
+	return (0);
 }
 
 t_path		*mini_fix_help(int pa)

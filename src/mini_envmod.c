@@ -6,7 +6,7 @@
 /*   By: jchiang- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 17:38:08 by jchiang-          #+#    #+#             */
-/*   Updated: 2019/05/08 14:21:03 by jchiang-         ###   ########.fr       */
+/*   Updated: 2019/05/10 15:58:52 by jchiang-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ t_path			*mini_unsetenv(t_mini *mini)
 		pre = mini->ev;
 		mini->ev = mini->ev->next;
 	}
+	mini_refenv(mini, temp);
 	return (temp);
 }
 
@@ -97,5 +98,6 @@ t_path			*mini_setenv(t_mini *mini)
 	}
 	if (pre->next == NULL)
 		pre->next = mini_set_add(mini);
+	mini_refenv(mini, temp);
 	return (temp);
 }

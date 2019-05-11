@@ -6,7 +6,7 @@
 /*   By: jchiang- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 08:42:42 by jchiang-          #+#    #+#             */
-/*   Updated: 2019/05/10 08:21:29 by jchiang-         ###   ########.fr       */
+/*   Updated: 2019/05/10 17:36:05 by jchiang-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,14 @@ static void		mini_cdrepath(t_mini *mini)
 	char		*del;
 	char		temp[PATH_MAX];
 
-	del = ft_strjoin(mini_findpath(mini->ev, "PWD"), "/");
-	path = ft_strjoin(del, mini->cmd[1]);
-	ft_strdel(&del);
+	if (mini->cmd[1][0] != '/')
+	{
+		del = ft_strjoin(mini_findpath(mini->ev, "PWD"), "/");
+		path = ft_strjoin(del, mini->cmd[1]);
+		ft_strdel(&del);
+	}
+	else
+		path = ft_strdup(mini->cmd[1]);
 	if ((mini_chdir(path, mini->cmd[1])))
 	{
 		ft_strdel(&path);

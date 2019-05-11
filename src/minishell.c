@@ -6,7 +6,7 @@
 /*   By: jchiang- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 08:30:39 by jchiang-          #+#    #+#             */
-/*   Updated: 2019/05/10 10:16:16 by jchiang-         ###   ########.fr       */
+/*   Updated: 2019/05/10 17:16:37 by jchiang-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,12 @@
 
 static void			init_envp(t_mini *mini, char **envp)
 {
-	int		len;
 	int		i;
 
-	len = 0;
-	while (envp[len])
-		len++;
 	i = -1;
-	if (!(mini->en = (char **)ft_memalloc(sizeof(char *) * len)))
-		return ;
 	mini->ev = NULL;
 	while (envp[++i])
-	{
 		mini->ev = mini_addlist(mini_addpath(envp[i]), mini->ev);
-		mini->en[i] = ft_strdup(envp[i]);
-	}
 }
 
 static void			get_arg(char **msg)
@@ -75,9 +66,10 @@ int					main(int argc, char **argv, char **envp)
 	ft_bzero(&mini, sizeof(mini));
 	display_header();
 	init_envp(&mini, envp);
-	mini_ctrl();
+	mini_refenv(&mini, mini.ev);
 	while (42)
 	{
+		mini_ctrl();
 		write(1, "\e[1;95m87SHELL> \e[0m", 20);
 		get_arg(&str);
 		mini.scmd = ft_strsplit(str, ';');

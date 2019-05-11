@@ -6,7 +6,7 @@
 /*   By: jchiang- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 19:00:58 by jchiang-          #+#    #+#             */
-/*   Updated: 2019/05/10 12:01:12 by jchiang-         ###   ########.fr       */
+/*   Updated: 2019/05/10 16:43:15 by jchiang-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,11 @@ int				mini_command(t_mini *mini)
 		else if (mini->cmd[0])
 		{
 			mini_trpath(mini);
-			get_bin_path("PATH", mini);
-			mini_fullpath(mini);
-			mini_dsfree(mini->path);
+			if (get_bin_path("PATH", mini) != -1)
+			{
+				mini_fullpath(mini);
+				mini_dsfree(mini->path);
+			}
 		}
 		(mini->cmd) ? mini_dsfree(mini->cmd) : 0;
 		mini->i += 1;

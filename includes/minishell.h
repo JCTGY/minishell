@@ -6,7 +6,7 @@
 /*   By: jchiang- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 08:28:32 by jchiang-          #+#    #+#             */
-/*   Updated: 2019/05/10 12:00:36 by jchiang-         ###   ########.fr       */
+/*   Updated: 2019/05/10 16:33:19 by jchiang-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,15 @@ t_path				*mini_fix_help(int pa);
 t_path				*mini_fixenv(t_mini *mini);
 char				*mini_findpath(t_path *mini, char *str);
 char				**mini_split(const char *s);
-void				get_bin_path(char *bin, t_mini *mini);
 void				dis_error(int error, char *msg);
 void				mini_dsfree(char **str);
 void				mini_dslist(t_mini *mini);
+void				mini_refenv(t_mini *mini, t_path *ev);
 void				mini_cd(t_mini *mini);
 void				mini_ctrl(void);
 void				mini_nctrl(void);
 void				mini_full_path(t_mini *mini);
+int					get_bin_path(char *bin, t_mini *mini);
 int					mini_echo(t_mini *mini);
 int					mini_rerror(int error, char *msg);
 int					mini_chdir(char *path, char *name);
