@@ -39,12 +39,12 @@ Mandatory
 * Manage the errors without using `errno`, by displaying a message adapted to the error output.
 * You must deal correctly with the PATH and the environment (copy of system char **environ).
 * Implement a series of builtins: 
-* `echo`
-* `cd`
-* `setenv`
-* `unsetenv`
-* `env`
-* `exit`
+  * `echo`
+  * `cd`
+  * `setenv`
+  * `unsetenv`
+  * `env`
+  * `exit`
 
 Bonus
 ---
