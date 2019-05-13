@@ -3,7 +3,13 @@
 Minishell
 ===
 ![](minishell.gif)
-[Bonus](#bonus)
+
+
+* [Objective](#objective)
+* [Bonus](#how_to_use)
+* [Bonus](#allow_function)
+* [Bonus](#mandatory)
+* [Bonus](#bonus)
 ## Objective
 Minishell is the very first buble of the shell branch. We will recreate a simple shell. Later on at 21sh and 42sh, we will add more function to it.
 
