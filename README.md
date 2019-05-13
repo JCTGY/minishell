@@ -2,8 +2,7 @@
 
 Minishell
 ===
-
-![][https://github.com/JCTGY/minishell/blob/master/minishell.gif]
+![](minishell.gif)
 
 ## Objective
 Minishell is the very first buble of the shell branch. We will recreate a simple shell. Later on at 21sh and 42sh, we will add more function to it.
