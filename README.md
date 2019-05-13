@@ -24,7 +24,7 @@ make
 ./minishell
 ```
 
-Allow Funtion
+Allow Function
 ---
 * malloc, free
 * access
