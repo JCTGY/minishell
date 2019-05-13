@@ -33,13 +33,12 @@ Allow Funtion
 
 Mandatory
 ---
-• Can only use C
-• No memory leaks
-• Mini UNIX command interpreter.
-• Manage the errors without using `errno`, by displaying a message adapted to the error output.
-• You must deal correctly with the PATH and the environment (copy of system char **environ).
-• Implement a series of builtins: 
-
+* Can only use C
+* No memory leaks
+* Mini UNIX command interpreter.
+* Manage the errors without using `errno`, by displaying a message adapted to the error output.
+* You must deal correctly with the PATH and the environment (copy of system char **environ).
+* Implement a series of builtins: 
 * `echo`
 * `cd`
 * `setenv`
