@@ -7,7 +7,7 @@ Minishell
 
 * [Objective](#objective)
 * [How to use](#how-to-use)
-* [Allow Funtion](#allow-function)
+* [Allow Function](#allow-function)
 * [Mandatory](#mandatory)
 * [Bonus](#bonus)
 
