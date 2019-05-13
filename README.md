@@ -3,7 +3,6 @@
 Minishell
 ===
 
-[TOC]
 
 
 ## Objective
@@ -21,16 +20,16 @@ make
 
 Allow Funtion
 ---
-◦ malloc, free
-◦ access
-◦ open, close, read, write
-◦ opendir, readdir, closedir
-◦ getcwd, chdir
-◦ stat, lstat, fstat
-◦ fork, execve
-◦ wait, waitpid, wait3, wait4
-◦ signal, kill
-◦ exit
+* malloc, free
+* access
+* open, close, read, write
+* opendir, readdir, closedir
+* getcwd, chdir
+* stat, lstat, fstat
+* fork, execve
+* wait, waitpid, wait3, wait4
+* signal, kill
+* exit
 
 Mandatory
 ---
